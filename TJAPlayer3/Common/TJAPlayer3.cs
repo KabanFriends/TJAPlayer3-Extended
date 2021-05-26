@@ -484,15 +484,18 @@ namespace TJAPlayer3
 				Cursor.Hide();
 				this.bマウスカーソル表示中 = false;
 			}
+
 			this.Device.SetTransform(TransformState.View, Matrix.LookAtLH(new Vector3(0f, 0f, (float)(-SampleFramework.GameWindowSize.Height / 2 * Math.Sqrt(3.0))), new Vector3(0f, 0f, 0f), new Vector3(0f, 1f, 0f)));
 			this.Device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovLH(C変換.DegreeToRadian((float)60f), ((float)this.Device.Viewport.Width) / ((float)this.Device.Viewport.Height), -100f, 100f));
+
 			this.Device.SetRenderState(RenderState.Lighting, false);
 			this.Device.SetRenderState(RenderState.ZEnable, false);
 			this.Device.SetRenderState(RenderState.AntialiasedLineEnable, false);
 			this.Device.SetRenderState(RenderState.AlphaTestEnable, true);
 			this.Device.SetRenderState(RenderState.AlphaRef, 10);
+			this.Device.SetRenderState(RenderState.CullMode, false);
 
-			this.Device.SetRenderState(RenderState.MultisampleAntialias, true);
+			this.Device.SetRenderState(RenderState.MultisampleAntialias, false);
 			this.Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
 			this.Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
 
@@ -549,7 +552,7 @@ namespace TJAPlayer3
 			#endregion
 
 			this.Device.BeginScene();
-			this.Device.Clear(ClearFlags.ZBuffer | ClearFlags.Target, Color.Black, 1f, 0);
+			this.Device.Clear(ClearFlags.ZBuffer | ClearFlags.Target, borderColor, 1f, 0);
 
 			if (r現在のステージ != null)
 			{
@@ -1232,10 +1235,30 @@ for (int i = 0; i < 3; i++) {
 
 				actScanningLoudness.On進行描画();
 
+				var mat = Matrix.LookAtLH(new Vector3(-fCamXOffset, fCamYOffset, (float)(-SampleFramework.GameWindowSize.Height / (fCamZoomFactor * 2) * Math.Sqrt(3.0))), new Vector3(-fCamXOffset, fCamYOffset, 0f), new Vector3(0f, 1f, 0f));
+				mat *= Matrix.RotationYawPitchRoll(0, 0, C変換.DegreeToRadian(fCamRotation));
+				mat *= Matrix.Scaling(fCamXScale, fCamYScale, 1f);
+				this.Device.SetTransform(TransformState.View, mat);
+
 				// オーバレイを描画する(テクスチャの生成されていない起動ステージは例外
-				if (r現在のステージ != null && r現在のステージ.eステージID != CStage.Eステージ.起動 && TJAPlayer3.Tx.Overlay != null)
+				if (r現在のステージ != null && r現在のステージ.eステージID != CStage.Eステージ.起動)
 				{
-					TJAPlayer3.Tx.Overlay.t2D描画(app.Device, 0, 0);
+					TJAPlayer3.Tx.Overlay?.t2D描画(app.Device, 0, 0);
+
+					if (TJAPlayer3.DTX != null)
+					{
+						//object rendering
+						foreach (KeyValuePair<string, CSongObject> pair in TJAPlayer3.DTX.listObj)
+						{
+							pair.Value.tDraw();
+						}
+					}
+
+					TJAPlayer3.Tx.Border.color4 = borderColor;
+					TJAPlayer3.Tx.Border.t2D強制描画(app.Device, -1920, -1080, 0f, new Rectangle(0, 0, 5120, 1080));
+					TJAPlayer3.Tx.Border.t2D強制描画(app.Device, -1920, 0, 0f, new Rectangle(0, 0, 1920, 720));
+					TJAPlayer3.Tx.Border.t2D強制描画(app.Device, 1280, 0, 0f, new Rectangle(0, 0, 1920, 720));
+					TJAPlayer3.Tx.Border.t2D強制描画(app.Device, -1920, 720, 0f, new Rectangle(0, 0, 5120, 1080));
 				}
 			}
 			this.Device.EndScene();         // Present()は game.csのOnFrameEnd()に登録された、GraphicsDeviceManager.game_FrameEnd() 内で実行されるので不要
@@ -2347,6 +2370,19 @@ for (int i = 0; i < 3; i++) {
 			ConfigIni.nウインドウheight = (ConfigIni.bウィンドウモード) ? base.Window.ClientSize.Height : currentClientSize.Height;
 		}
 		#endregion
+		#endregion
+
+		#region [ EXTENDED VARIABLES ]
+		public static float fCamXOffset;
+		public static float fCamYOffset;
+
+		public static float fCamZoomFactor = 1.0f;
+		public static float fCamRotation;
+
+		public static float fCamXScale = 1.0f;
+		public static float fCamYScale = 1.0f;
+
+		public static Color4 borderColor = new Color4(1f, 0f, 0f, 0f);
 		#endregion
 	}
 }

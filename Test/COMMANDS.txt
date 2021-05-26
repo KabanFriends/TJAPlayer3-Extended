@@ -1,0 +1,89 @@
+=== New TJA Commands in TJAPlayer3-Extended ===
+
+[RENDERING FUNCTIONS]
+#ENABLEDORON
+Enables Doron mode
+
+#DISABLEDORON
+Disables Doron mode
+
+[BASIC CAMERA FUNCTIONS]
+#CAMHOFFSET <offset>
+Sets horizontal camera offset
+
+#CAMVOFFSET <offset>
+Sets vertical camera offset
+
+#CAMZOOM <factor>
+Sets camera zoom
+
+#CAMROTATION <degrees>
+Sets camera rotation
+
+#CAMHSCALE <scale>
+Sets horizontal screen scaling
+
+#CAMVSCALE <scale>
+Sets vertical screen scaling
+
+#BORDERCOLOR <r>,<g>,<b>
+Sets the border color (Background color outside the screen view)
+
+#CAMRESET
+Resets all camera properties
+
+
+
+[EASING CAMERA FUNCTIONS] Note: Read the next section for Easing Types and Calculation Types
+#CAMVMOVESTART <start y>,<end y>,<easing type>,<calculation type>
+Moves the camera vertically from the start point to the end point (Duration is specified by placing #CAMVMOVEEND)
+
+#CAMVMOVEEND
+Stops the vertical camera move
+
+#CAMHMOVESTART <start x>,<end x>,<easing type>,<calculation type>
+Moves the camera horizontally from the start point to the end point (Duration is specified by placing #CAMHMOVEEND)
+
+#CAMHMOVEEND
+Stops the horizontal camera move
+
+#CAMZOOMSTART <start factor>,<end factor>,<easing type>,<calculation type>
+Zooms the screen from the start zoom factor to the end zoom factor (Duration is specified by placing #CAMZOOMEND)
+
+#CAMZOOMEND
+Stops the screen zooming
+
+#CAMROTATIONSTART <start degrees>,<end degrees>,<easing type>,<calculation type>
+Zooms the screen from the start degrees to the end zoom degrees (Duration is specified by placing #CAMROTATIONEND)
+
+#CAMROTATIONEND
+Stops the screen rotation
+
+#CAMVSCALESTART <start scale>,<end scale>,<easing type>,<calculation type>
+Gradually sets the vertical screen scaling from the start scale to the end scale (Duration is specified by placing #CAMVSCALEEND)
+
+#CAMVSCALEEND
+Stops the vertical screen scaling
+
+#CAMHSCALESTART <start scale>,<end scale>,<easing type>,<calculation type>
+Gradually sets the horizontal screen scaling from the start scale to the end scale (Duration is specified by placing #CAMHSCALEEND)
+
+#CAMHSCALEEND
+Stops the horizontal screen scaling
+
+
+
+[EASING PROPERTIES]
+Easing Types:
+"IN"
+"OUT"
+"IN_OUT"
+
+Calculation Types:
+"CUBIC"
+"QUARTIC"
+"QUINTIC"
+"SINUSOIDAL"
+"EXPONENTIAL"
+"CIRCULAR"
+"LINEAR"

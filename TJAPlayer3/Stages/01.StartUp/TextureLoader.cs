@@ -84,6 +84,11 @@ namespace TJAPlayer3
             return texture;
         }
 
+        internal CTexture TxCSong(string path)
+        {
+            return TxCUntrackedSong(path);
+        }
+
         internal CTexture TxCGenre(string fileNameWithoutExtension)
         {
             if (_genreTexturesByFileNameWithoutExtension.TryGetValue(fileNameWithoutExtension, out var texture))
@@ -96,6 +101,11 @@ namespace TJAPlayer3
             _genreTexturesByFileNameWithoutExtension.Add(fileNameWithoutExtension, texture);
 
             return texture;
+        }
+
+        internal CTexture TxCUntrackedSong(string path)
+        {
+            return TJAPlayer3.tテクスチャの生成(path);
         }
 
         internal CTexture TxCUntracked(string path)
@@ -118,6 +128,8 @@ namespace TJAPlayer3
             Enum_Song = TxC("Enum_Song.png");
             Scanning_Loudness = TxC("Scanning_Loudness.png");
             Overlay = TxC("Overlay.png");
+
+            Border = TxC("Tile_White.png");
 
             NamePlate = TxC(2, "{0}P_NamePlate.png", 1);
             #endregion
@@ -412,7 +424,8 @@ namespace TJAPlayer3
             Menu_Highlight,
             Enum_Song,
             Scanning_Loudness,
-            Overlay;
+            Overlay,
+            Border;
         public CTexture[] NamePlate;
         #endregion
         #region 1_タイトル画面

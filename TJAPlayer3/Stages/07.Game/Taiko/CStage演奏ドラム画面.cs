@@ -1296,7 +1296,7 @@ namespace TJAPlayer3
                             {
                                 case 0x11:
 
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         TJAPlayer3.Tx.Notes.t2D描画( device, x, y, new Rectangle( 130, num9, 130, 130 ) );
                                     }
@@ -1305,7 +1305,7 @@ namespace TJAPlayer3
                                     break;
 
                                 case 0x12:
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         TJAPlayer3.Tx.Notes.t2D描画( device, x, y, new Rectangle( 260, num9, 130, 130) );
                                     }
@@ -1314,7 +1314,7 @@ namespace TJAPlayer3
                                     break;
                                   
                                 case 0x13:
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         TJAPlayer3.Tx.Notes.t2D描画( device, x, y, new Rectangle( 390, num9, 130, 130 ) );
                                     }
@@ -1323,7 +1323,7 @@ namespace TJAPlayer3
                                     break;
 
                                 case 0x14:
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         TJAPlayer3.Tx.Notes.t2D描画( device, x, y, new Rectangle( 520, num9, 130, 130 ) );
                                     }
@@ -1332,7 +1332,7 @@ namespace TJAPlayer3
                                     break;
 
                                 case 0x1A:
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         if( nPlayer == 0 )
                                         {
@@ -1352,7 +1352,7 @@ namespace TJAPlayer3
                                     break;
 
                                 case 0x1B:
-                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON )
+                                    if( TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     {
                                         if( nPlayer == 0 )
                                         {
@@ -1594,7 +1594,7 @@ namespace TJAPlayer3
                         if (pChip.nチャンネル番号 == 0x15) //連打(小)
                         {
                             int index = x末端 - x; //連打の距離
-                            if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON)
+                            if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                             {
                                 #region[末端をテクスチャ側で中央に持ってくる場合の方式]
 
@@ -1639,7 +1639,7 @@ namespace TJAPlayer3
                         {
                             int index = x末端 - x; //連打の距離
 
-                            if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON)
+                            if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                             {
                                 #region[末端をテクスチャ側で中央に持ってくる場合の方式]
 
@@ -1691,7 +1691,7 @@ namespace TJAPlayer3
                                 else if (CSound管理.rc演奏用タイマ.n現在時刻ms >= pChip.nノーツ終了時刻ms)
                                     x = (349 + pChip.nバーからのノーツ末端距離dot.Taiko);
 
-                                if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON)
+                                if (TJAPlayer3.ConfigIni.eSTEALTH != Eステルスモード.DORON && !TJAPlayer3.stage演奏ドラム画面.bCustomDoron)
                                     TJAPlayer3.Tx.Notes.t2D描画(TJAPlayer3.app.Device, x, y, new Rectangle(1430, num9, 260, 130));
 
                                 TJAPlayer3.Tx.SENotes?.t2D描画(TJAPlayer3.app.Device, x - 2, y + nSenotesY, new Rectangle(0, 30 * pChip.nSenote, 136, 30));
