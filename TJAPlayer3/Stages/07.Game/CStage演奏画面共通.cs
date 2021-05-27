@@ -309,9 +309,23 @@ namespace TJAPlayer3
 			{
 				pair.Value.tDispose();
 			}
+			dTX.listObj.Clear();
 
-			dTX.listObj.Clear();
-			dTX.listObj.Clear();
+			foreach (KeyValuePair<string, CTexture> pair in dTX.listOriginalTextures)
+			{
+				string txPath = pair.Key;
+				CTexture originalTx = pair.Value;
+				TJAPlayer3.Tx.trackedTextures.TryGetValue(txPath, out CTexture oldTx);
+
+				if (oldTx != originalTx)
+                {
+					oldTx.UpdateTexture(TJAPlayer3.app.Device, originalTx.texture, originalTx.sz画像サイズ.Width, originalTx.sz画像サイズ.Height);
+                }
+			}
+			foreach (KeyValuePair<string, CTexture> pair in dTX.listTextures)
+            {
+				pair.Value.Dispose();
+            }
 
 			for (int i = 0; i < 2; i++)
 			{
@@ -3548,6 +3562,42 @@ namespace TJAPlayer3
 
 							dTX.listObj.TryGetValue(pChip.strObjName, out pChip.obj);
 							objHandlers.Add(pChip, new CCounter(0, 0, 1, TJAPlayer3.Timer));
+						}
+						break;
+					case 0xd1: //change texture
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+
+							if (TJAPlayer3.Tx.trackedTextures.ContainsKey(pChip.strTargetTxName))
+                            {
+								TJAPlayer3.Tx.trackedTextures.TryGetValue(pChip.strTargetTxName, out CTexture oldTx);
+								dTX.listTextures.TryGetValue(pChip.strNewPath, out CTexture newTx);
+
+								newTx.Opacity = oldTx.Opacity;
+								newTx.fZ軸中心回転 = oldTx.fZ軸中心回転;
+								newTx.vc拡大縮小倍率 = oldTx.vc拡大縮小倍率;
+
+								oldTx.UpdateTexture(TJAPlayer3.app.Device, newTx.texture, newTx.sz画像サイズ.Width, newTx.sz画像サイズ.Height);
+							}
+						}
+						break;
+					case 0xd2: //reset texture
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+
+							if (TJAPlayer3.Tx.trackedTextures.ContainsKey(pChip.strTargetTxName))
+							{
+								TJAPlayer3.Tx.trackedTextures.TryGetValue(pChip.strTargetTxName, out CTexture oldTx);
+								dTX.listOriginalTextures.TryGetValue(pChip.strTargetTxName, out CTexture originalTx);
+
+								originalTx.Opacity = oldTx.Opacity;
+								originalTx.fZ軸中心回転 = oldTx.fZ軸中心回転;
+								originalTx.vc拡大縮小倍率 = oldTx.vc拡大縮小倍率;
+
+								oldTx.UpdateTexture(TJAPlayer3.app.Device, originalTx.texture, originalTx.sz画像サイズ.Width, originalTx.sz画像サイズ.Height);
+							}
 						}
 						break;
 					#endregion

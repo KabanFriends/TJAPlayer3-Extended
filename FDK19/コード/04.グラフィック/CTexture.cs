@@ -76,7 +76,7 @@ namespace FDK
         public Texture texture
         {
             get;
-            private set;
+            set;
         }
         public Format Format
         {
@@ -107,6 +107,19 @@ namespace FDK
             this.b加算合成 = false;
             this.fZ軸中心回転 = 0f;
             this.vc拡大縮小倍率 = new Vector3(1f, 1f, 1f);
+            //			this._txData = null;
+        }
+
+        public CTexture(CTexture tx)
+        {
+            this.sz画像サイズ = tx.sz画像サイズ;
+            this.szテクスチャサイズ = tx.szテクスチャサイズ;
+            this._opacity = tx._opacity;
+            this.texture = tx.texture;
+            this.cvPositionColoredVertexies = tx.cvPositionColoredVertexies;
+            this.b加算合成 = tx.b加算合成;
+            this.fZ軸中心回転 = tx.fZ軸中心回転;
+            this.vc拡大縮小倍率 = tx.vc拡大縮小倍率;
             //			this._txData = null;
         }
 
@@ -218,6 +231,14 @@ namespace FDK
 
             Byte[] _txData = File.ReadAllBytes(strファイル名);
             MakeTexture(device, _txData, format, b黒を透過する, pool);
+        }
+
+        public void UpdateTexture(Device device, Texture texture, int n幅, int n高さ)
+        {
+            this.texture = texture;
+            this.sz画像サイズ = new Size(n幅, n高さ);
+            this.szテクスチャサイズ = this.t指定されたサイズを超えない最適なテクスチャサイズを返す(device, this.sz画像サイズ);
+            this.rc全画像 = new Rectangle(0, 0, this.sz画像サイズ.Width, this.sz画像サイズ.Height);
         }
 
         private void MakeTexture(Device device, byte[] txData, Format format, bool b黒を透過する, Pool pool)

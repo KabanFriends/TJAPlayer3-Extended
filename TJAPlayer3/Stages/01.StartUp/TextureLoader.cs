@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FDK;
 
@@ -44,7 +45,7 @@ namespace TJAPlayer3
         const string ROLL = @"Roll\";
         const string SPLASH = @"Splash\";
 
-        private readonly List<CTexture> _trackedTextures = new List<CTexture>();
+        public Dictionary<string, CTexture> trackedTextures = new Dictionary<string, CTexture>();
         private readonly Dictionary<string, CTexture> _genreTexturesByFileNameWithoutExtension = new Dictionary<string, CTexture>();
 
         private (int skinGameCharaPtnNormal, CTexture[] charaNormal) TxCFolder(string folder)
@@ -66,19 +67,28 @@ namespace TJAPlayer3
 
         private CTexture TxC(string path)
         {
-            return Track(TxCUntracked(path));
+            return Track(TxCUntracked(path), path);
         }
 
         private CTextureAf TxCAf(string path)
         {
-            return Track(TxCAfUntracked(path));
+            return Track(TxCAfUntracked(path), path);
         }
 
-        private T Track<T>(T texture) where T : CTexture
+        private T Track<T>(T texture, string path) where T : CTexture
         {
             if (texture != null)
             {
-                _trackedTextures.Add(texture);
+                if (trackedTextures.ContainsKey(path))
+                {
+                    var valid = false;
+                    while (!valid)
+                    {
+                        path += "-";
+                        if (!trackedTextures.ContainsKey(path)) valid = true;
+                    }
+                }
+                trackedTextures.Add(path, texture);
             }
 
             return texture;
@@ -410,11 +420,11 @@ namespace TJAPlayer3
         {
             _genreTexturesByFileNameWithoutExtension.Clear();
 
-            foreach (var texture in _trackedTextures)
+            foreach (KeyValuePair<string, CTexture> pair in trackedTextures)
             {
-                texture.Dispose();
+                pair.Value.Dispose();
             }
-            _trackedTextures.Clear();
+            trackedTextures.Clear();
         }
 
         #region 共通

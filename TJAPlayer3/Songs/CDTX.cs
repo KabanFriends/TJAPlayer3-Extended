@@ -443,6 +443,9 @@ namespace TJAPlayer3
             public float fObjEnd;
 
             public CSongObject obj;
+
+            public string strTargetTxName;
+            public string strNewPath;
             //
 
             public bool bBPMチップである
@@ -1163,6 +1166,8 @@ namespace TJAPlayer3
 
         #region [ EXTENDED VARiABLES ]
         public Dictionary<string, CSongObject> listObj;
+        public Dictionary<string, CTexture> listTextures;
+        public Dictionary<string, CTexture> listOriginalTextures;
         #endregion
 
 #if TEST_NOTEOFFMODE
@@ -4993,6 +4998,54 @@ namespace TJAPlayer3
                     Trace.TraceInformation("TJA ERROR: Missing #OBJOPACITYEND");
                 }
             }
+            else if (command == "#CHANGETEXTURE")
+            {
+                var chip = new CChip();
+
+                chip.nチャンネル番号 = 0xD1;
+                chip.n発声位置 = ((this.n現在の小節数) * 384);
+                chip.dbBPM = this.dbNowBPM;
+                chip.n発声時刻ms = (int)this.dbNowTime;
+                chip.fNow_Measure_m = this.fNow_Measure_m;
+                chip.fNow_Measure_s = this.fNow_Measure_s;
+                chip.n整数値_内部番号 = 1;
+
+                string[] args = argument.Split(',');
+                chip.strTargetTxName = args[0].Replace("/", "\\");
+                chip.strNewPath = this.strフォルダ名 + args[1];
+
+                if (!this.listOriginalTextures.ContainsKey(chip.strTargetTxName))
+                {
+                    TJAPlayer3.Tx.trackedTextures.TryGetValue(chip.strTargetTxName, out CTexture oldTx);
+                    this.listOriginalTextures.Add(chip.strTargetTxName, new CTexture(oldTx));
+                }
+
+                if (!this.listTextures.ContainsKey(chip.strNewPath))
+                {
+                    CTexture tx = TJAPlayer3.Tx.TxCSong(chip.strNewPath);
+                    this.listTextures.Add(chip.strNewPath, tx);
+                }
+
+                // チップを配置。
+                this.listChip.Add(chip);
+            }
+            else if (command == "#RESETTEXTURE")
+            {
+                var chip = new CChip();
+
+                chip.nチャンネル番号 = 0xD2;
+                chip.n発声位置 = ((this.n現在の小節数) * 384);
+                chip.dbBPM = this.dbNowBPM;
+                chip.n発声時刻ms = (int)this.dbNowTime;
+                chip.fNow_Measure_m = this.fNow_Measure_m;
+                chip.fNow_Measure_s = this.fNow_Measure_s;
+                chip.n整数値_内部番号 = 1;
+
+                chip.strTargetTxName = argument.Replace("/", "\\");
+
+                // チップを配置。
+                this.listChip.Add(chip);
+            }
             else if (command == "#SECTION")
             {
                 //分岐:条件リセット
@@ -7394,6 +7447,8 @@ namespace TJAPlayer3
             this.listLiryc = new List<string>();
             this.List_DanSongs = new List<DanSongs>();
             this.listObj = new Dictionary<string, CSongObject>();
+            this.listTextures = new Dictionary<string, CTexture>();
+            this.listOriginalTextures = new Dictionary<string, CTexture>();
             this.currentObjAnimations = new Dictionary<string, CChip>();
             base.On活性化();
         }
