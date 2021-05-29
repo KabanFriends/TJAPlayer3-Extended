@@ -3552,7 +3552,7 @@ namespace TJAPlayer3
 							pChip.bHit = true;
 
 							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
-							obj.texture.color4 = pChip.borderColor;
+							obj.color = pChip.borderColor;
 						}
 						break;
 					case 0xcb: //set object y

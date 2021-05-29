@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 using SlimDX;
 using FDK;
 
@@ -22,26 +23,43 @@ namespace TJAPlayer3
             this.opacity = 255;
             this.xScale = 1.0f;
             this.yScale = 1.0f;
+            this.color = new Color4(1f, 1f, 1f, 1f);
+            this.frame = 1;
 
-            this.texture = TJAPlayer3.Tx.TxCSong(path);
+            FileAttributes attr = File.GetAttributes(path);
+
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                textures = TJAPlayer3.Tx.TxCSongFolder(path);
+            }else
+            {
+                textures = new CTexture[1];
+                textures[0] = TJAPlayer3.Tx.TxCSong(path);
+            }
         }       
 
         public void tDraw()
         {
-            if (this.texture == null) return;
+            CTexture tx = this.textures[frame - 1];
+            if (frame > textures.Length) return;
+            if (tx == null) return;
 
-            this.texture.fZ軸中心回転 = C変換.DegreeToRadian(this.rotation);
-            this.texture.Opacity = this.opacity;
-            if (visible) this.texture.t2D描画SongObj(TJAPlayer3.app.Device, this.x, this.y, this.xScale, this.yScale);
+            tx.fZ軸中心回転 = C変換.DegreeToRadian(this.rotation);
+            tx.color4 = this.color;
+            tx.Opacity = this.opacity;
+            if (visible) tx.t2D描画SongObj(TJAPlayer3.app.Device, this.x, this.y, this.xScale, this.yScale);
         }
 
         public void tDispose()
         {
             this.visible = false;
-            if (this.texture == null) this.texture.Dispose();
+            foreach (CTexture tx in textures)
+            {
+                if (tx != null) tx.Dispose();
+            }
         }
 
-        public CTexture texture;
+        public CTexture[] textures;
 
         public string name;
         public bool visible;
@@ -52,5 +70,8 @@ namespace TJAPlayer3
         public int opacity;
         public float xScale;
         public float yScale;
+        public Color4 color;
+
+        public int frame;
     }
 }
