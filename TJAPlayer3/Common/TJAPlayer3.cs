@@ -493,7 +493,7 @@ namespace TJAPlayer3
 			this.Device.SetRenderState(RenderState.AntialiasedLineEnable, false);
 			this.Device.SetRenderState(RenderState.AlphaTestEnable, true);
 			this.Device.SetRenderState(RenderState.AlphaRef, 10);
-			this.Device.SetRenderState(RenderState.CullMode, false);
+			this.Device.SetRenderState(RenderState.CullMode, Cull.None);
 
 			this.Device.SetRenderState(RenderState.MultisampleAntialias, false);
 			this.Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
