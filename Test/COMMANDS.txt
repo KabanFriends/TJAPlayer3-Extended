@@ -1,11 +1,78 @@
 === New TJA Commands in TJAPlayer3-Extended ===
 
-[RENDERING FUNCTIONS]
-#ENABLEDORON
-Enables Doron mode
+[BASIC OBJECT FUNCTIONS]
+#ADDOBJECT <name>,<x>,<y>,<texture filepath>
+Adds object with specified name.
+Specify PNG file for non-animated object, and specify folder containing numbered PNG files (starting from 0.png) for animated object.
+Examples: #ADDOBJECT amogus,538,390,haruiro/amogus.png OR #ADDOBJECT animtest,10,360,haruiro/animtest/
 
-#DISABLEDORON
-Disables Doron mode
+#REMOVEOBJECT <name>
+Removes object with specified name.
+
+#OBJX <name>,<x>
+Sets object X coordinate (horizontal position)
+
+#OBJY <name>,<y>
+Sets object Y coordinate (vertical position)
+
+#OBJHSCALE <name>,<scale>
+Sets object horizontal scaling
+
+#OBJVSCALE <name>,<scale>
+Sets object vertical scaling
+
+#OBJROTATION <name>,<degrees>
+Sets object rotation
+
+#OBJOPACITY <name>,<opacity>
+Sets object opacity. Minimum 0 (invisible), maximum 255 (fully opaque)
+
+#OBJANIMSTART <name>,<frame interval>
+Starts object animation. Frame interval has to be specified in milliseconds.
+
+#OBJANIMSTARTLOOP <name>,<frame interval>
+Same as above, but loops the animation until the stop command is used.
+
+#OBJANIMEND <name>
+Stops object animation.
+
+#OBJFRAME <name>,<frame>
+Sets object animation frame. Does not work when the object is already in animation.
+
+
+
+[EASING OBJECT FUNCTIONS] Note: Read the later section for Easing Types and Calculation Types
+#OBJVMOVESTART <name>,<start y>,<end y>,<easing type>,<calculation type>
+Moves the object vertically from the start point to the end point (Duration is specified by placing #OBJVMOVEEND)
+
+#OBJVMOVEEND
+Stops the vertical object move
+
+#OBJHMOVESTART <name>,<start x>,<end x>,<easing type>,<calculation type>
+Moves the object horizontally from the start point to the end point (Duration is specified by placing #OBJHMOVEEND)
+
+#OBJHMOVEEND
+Stops the horizontal object move
+
+#OBJROTATIONSTART <name>,<start degrees>,<end degrees>,<easing type>,<calculation type>
+Rotates the object from the start degrees to the end zoom degrees (Duration is specified by placing #OBJROTATIONEND)
+
+#OBJROTATIONEND
+Stops the object rotation
+
+#OBJVSCALESTART <name>,<start scale>,<end scale>,<easing type>,<calculation type>
+Gradually sets the vertical object scaling from the start scale to the end scale (Duration is specified by placing #OBJVSCALEEND)
+
+#OBJVSCALEEND
+Stops the vertical object scaling
+
+#OBJHSCALESTART <name>,<start scale>,<end scale>,<easing type>,<calculation type>
+Gradually sets the horizontal object scaling from the start scale to the end scale (Duration is specified by placing #OBJHSCALEEND)
+
+#OBJHSCALEEND
+Stops the horizontal object scaling
+
+
 
 [BASIC CAMERA FUNCTIONS]
 #CAMHOFFSET <offset>
@@ -26,15 +93,12 @@ Sets horizontal screen scaling
 #CAMVSCALE <scale>
 Sets vertical screen scaling
 
-#BORDERCOLOR <r>,<g>,<b>
-Sets the border color (Background color outside the screen view)
-
 #CAMRESET
 Resets all camera properties
 
 
 
-[EASING CAMERA FUNCTIONS] Note: Read the next section for Easing Types and Calculation Types
+[EASING CAMERA FUNCTIONS] Note: Read the later section for Easing Types and Calculation Types
 #CAMVMOVESTART <start y>,<end y>,<easing type>,<calculation type>
 Moves the camera vertically from the start point to the end point (Duration is specified by placing #CAMVMOVEEND)
 
@@ -54,7 +118,7 @@ Zooms the screen from the start zoom factor to the end zoom factor (Duration is 
 Stops the screen zooming
 
 #CAMROTATIONSTART <start degrees>,<end degrees>,<easing type>,<calculation type>
-Zooms the screen from the start degrees to the end zoom degrees (Duration is specified by placing #CAMROTATIONEND)
+Rotates the screen from the start degrees to the end zoom degrees (Duration is specified by placing #CAMROTATIONEND)
 
 #CAMROTATIONEND
 Stops the screen rotation
@@ -73,7 +137,29 @@ Stops the horizontal screen scaling
 
 
 
-[EASING PROPERTIES]
+[MISCELLANEOUS FUNCTIONS]
+#ENABLEDORON
+Enables Doron mode
+
+#DISABLEDORON
+Disables Doron mode
+
+#CHANGETEXTURE <original filepath>,<new filepath>
+Changes default skin texture. Original filepath is the path inside Graphics folder of the skin.
+Example: #CHANGETEXTURE 5_Game/12_Lane/Blue.png,haruiro/Lane.png
+
+#RESETTEXTURE <original filepath>
+Resets texture changed with #CHANGETEXTURE.
+
+#BORDERCOLOR <r>,<g>,<b>
+Sets the border color (Background color outside the screen view). Each color component needs to be in range of 0 ~ 255.
+
+#SETCONFIG <key=value>
+Changes SkinConfig.ini value. Example: #SETCONFIG Game_Taiko_Y=10,10
+
+
+
+[EASING PROPERTIES] Used for easings in Objects and Cameras
 Easing Types:
 "IN"
 "OUT"
