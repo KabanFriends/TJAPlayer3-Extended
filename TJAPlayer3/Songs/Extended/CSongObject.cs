@@ -41,6 +41,7 @@ namespace TJAPlayer3
         public void tStartAnimation(double animInterval, bool loop)
         {
             counter.t開始(0, textures.Length - 1, animInterval, TJAPlayer3.Timer);
+            counter.n現在の値 = this.frame;
 
             this.isLooping = loop;
             this.isAnimating = true;
