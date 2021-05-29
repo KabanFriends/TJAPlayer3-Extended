@@ -187,7 +187,7 @@ namespace FDK
 
 			ESoundDeviceType[] ESoundDeviceTypes = new ESoundDeviceType[ 4 ]
 			{
-				ESoundDeviceType.ExclusiveWASAPI,
+				ESoundDeviceType.SharedWASAPI,
 				ESoundDeviceType.ASIO,
 				ESoundDeviceType.DirectSound,
 				ESoundDeviceType.Unknown
@@ -196,7 +196,7 @@ namespace FDK
 			int n初期デバイス;
 			switch ( soundDeviceType )
 			{
-				case ESoundDeviceType.ExclusiveWASAPI:
+				case ESoundDeviceType.SharedWASAPI:
 					n初期デバイス = 0;
 					break;
 				case ESoundDeviceType.ASIO:
