@@ -446,6 +446,8 @@ namespace TJAPlayer3
 
             public string strTargetTxName;
             public string strNewPath;
+
+            public string strConfigValue;
             //
 
             public bool bBPMチップである
@@ -5042,6 +5044,23 @@ namespace TJAPlayer3
                 chip.n整数値_内部番号 = 1;
 
                 chip.strTargetTxName = argument.Replace("/", "\\");
+
+                // チップを配置。
+                this.listChip.Add(chip);
+            }
+            else if (command == "#SETCONFIG")
+            {
+                var chip = new CChip();
+
+                chip.nチャンネル番号 = 0xD3;
+                chip.n発声位置 = ((this.n現在の小節数) * 384);
+                chip.dbBPM = this.dbNowBPM;
+                chip.n発声時刻ms = (int)this.dbNowTime;
+                chip.fNow_Measure_m = this.fNow_Measure_m;
+                chip.fNow_Measure_s = this.fNow_Measure_s;
+                chip.n整数値_内部番号 = 1;
+
+                chip.strConfigValue = argument;
 
                 // チップを配置。
                 this.listChip.Add(chip);

@@ -327,6 +327,11 @@ namespace TJAPlayer3
 				pair.Value.Dispose();
             }
 
+			if (bConfigUpdated)
+            {
+				TJAPlayer3.app.RefleshSkin();
+            }
+
 			for (int i = 0; i < 2; i++)
 			{
 				ctChipAnime[i] = null;
@@ -3600,6 +3605,16 @@ namespace TJAPlayer3
 							}
 						}
 						break;
+					case 0xd3: //set config
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+							string[] split = pChip.strConfigValue.Split('=');
+
+							TJAPlayer3.Skin.t文字列から読み込み(pChip.strConfigValue, split[0]);
+							bConfigUpdated = true;
+						}
+						break;
 					#endregion
 					#region [ c4, c7, d5-d9: EmptySlot ]
 					case 0xd6:  // BGA画像入れ替え
@@ -4677,6 +4692,7 @@ namespace TJAPlayer3
 		private Easing easing = new Easing();
 
 		public bool bCustomDoron = false;
+		private bool bConfigUpdated = false;
 		#endregion
 	}
 }

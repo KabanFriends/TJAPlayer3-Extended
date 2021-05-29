@@ -768,11 +768,11 @@ namespace TJAPlayer3
 
         }
 
-        public void tReadSkinConfig()
+        public void tReadSkinConfig(string wantedValue = null)
         {
             var str = "";
             LoadSkinConfigFromFile(Path(@"SkinConfig.ini"), ref str);
-            this.t文字列から読み込み(str);
+            this.t文字列から読み込み(str, wantedValue);
 
             void LoadSkinConfigFromFile(string path, ref string work)
             {
@@ -797,7 +797,7 @@ namespace TJAPlayer3
             }
         }
 
-        private void t文字列から読み込み(string strAllSettings)	// 2011.4.13 yyagi; refactored to make initial KeyConfig easier.
+        public void t文字列から読み込み(string strAllSettings, string strWantedValue)	// 2011.4.13 yyagi; refactored to make initial KeyConfig easier.
         {
             string[] delimiter = { "\n" };
             string[] strSingleLine = strAllSettings.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
@@ -811,10 +811,19 @@ namespace TJAPlayer3
                         string strCommand;
                         string strParam;
                         string[] strArray = str.Split(new char[] { '=' });
+
                         if (strArray.Length == 2)
                         {
                             strCommand = strArray[0].Trim();
                             strParam = strArray[1].Trim();
+
+                            if (strWantedValue != null)
+                            {
+                                if (strCommand != strWantedValue)
+                                {
+                                    continue;
+                                }
+                            }
 
                             #region スキン設定
 
