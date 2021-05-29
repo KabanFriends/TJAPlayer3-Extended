@@ -426,21 +426,27 @@ namespace FDK
             if (this.texture == null)
                 return;
 
-            if (x + rc画像内の描画領域.Width < 0 || x > SampleFramework.GameWindowSize.Width)
+            float fx = ((float)rc画像内の描画領域.Width) / 2f;
+            float fy = ((float)rc画像内の描画領域.Height) / 2f;
+            float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
+            float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
+            float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
+            float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
+
+            float xOffset = rc画像内の描画領域.Width > rc全画像.Width ? 0 : (float)rc画像内の描画領域.Width * (this.vc拡大縮小倍率.X - 1f) * 0.5f;
+            float yOffset = rc画像内の描画領域.Height > rc全画像.Height ? 0 : (float)rc画像内の描画領域.Height * (this.vc拡大縮小倍率.Y - 1f) * 0.5f;
+            float finalX = x - SampleFramework.GameWindowSize.Width / 2.0f + xOffset + fx;
+            float finalY = y - SampleFramework.GameWindowSize.Height / 2.0f + yOffset + fy;
+
+            if (x + rc画像内の描画領域.Width * (rc画像内の描画領域.Width > rc全画像.Width ? 1 : this.vc拡大縮小倍率.X) < 0 || x > SampleFramework.GameWindowSize.Width)
                 return;
-            if (y + rc画像内の描画領域.Height < 0 || y > SampleFramework.GameWindowSize.Height)
+            if (y + rc画像内の描画領域.Height * (rc画像内の描画領域.Height > rc全画像.Height ? 1 : this.vc拡大縮小倍率.Y) < 0 || y > SampleFramework.GameWindowSize.Height)
                 return;
 
             if (this.fZ軸中心回転 == 0f)
             {
                 #region [ (A) 回転なし ]
                 //-----------------
-                float fx = ((float)rc画像内の描画領域.Width) / 2f;
-                float fy = ((float)rc画像内の描画領域.Height) / 2f;
-                float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
-                float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
-                float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
-                float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
                 this.color4.Alpha = ((float)this._opacity) / 255f;
                 int color = this.color4.ToArgb();
 
@@ -480,7 +486,7 @@ namespace FDK
                 this.tレンダリングステートの設定(device);
 
                 var matrix = Matrix.Identity * Matrix.Scaling(this.vc拡大縮小倍率);
-                matrix *= Matrix.Translation(x - SampleFramework.GameWindowSize.Width / 2.0f + fx, -(y - SampleFramework.GameWindowSize.Height / 2.0f + fy), 0f);
+                matrix *= Matrix.Translation(finalX, -finalY, 0f);
 
                 device.SetTransform(TransformState.World, matrix);
                 device.SetTexture(0, this.texture);
@@ -494,12 +500,6 @@ namespace FDK
             {
                 #region [ (B) 回転あり ]
                 //-----------------
-                float fx = ((float)rc画像内の描画領域.Width) / 2f;
-                float fy = ((float)rc画像内の描画領域.Height) / 2f;
-                float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
-                float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
-                float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
-                float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
                 this.color4.Alpha = ((float)this._opacity) / 255f;
                 int color = this.color4.ToArgb();
 
@@ -543,7 +543,7 @@ namespace FDK
                 var vc3移動量 = new Vector3(n描画領域内X - (((float)device.Viewport.Width) / 2f), -(n描画領域内Y - (((float)device.Viewport.Height) / 2f)), 0f);
 
                 var matrix = Matrix.Identity * Matrix.Scaling(this.vc拡大縮小倍率);
-                matrix *= Matrix.Translation(x - SampleFramework.GameWindowSize.Width / 2.0f + fx, -(y - SampleFramework.GameWindowSize.Height / 2.0f + fy), 0f);
+                matrix *= Matrix.Translation(finalX, -finalY, 0f);
                 matrix *= Matrix.RotationZ(this.fZ軸中心回転);
                 matrix *= Matrix.Translation(vc3移動量);
                 device.SetTransform(TransformState.World, matrix);
@@ -560,21 +560,27 @@ namespace FDK
             if (this.texture == null)
                 return;
 
-            if (x + rc画像内の描画領域.Width < 0 || x > SampleFramework.GameWindowSize.Width)
+            float fx = ((float)rc画像内の描画領域.Width) / 2f;
+            float fy = ((float)rc画像内の描画領域.Height) / 2f;
+            float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
+            float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
+            float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
+            float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
+
+            float xOffset = rc画像内の描画領域.Width > rc全画像.Width ? 0 : (float)rc画像内の描画領域.Width * (this.vc拡大縮小倍率.X - 1f) * 0.5f;
+            float yOffset = rc画像内の描画領域.Height > rc全画像.Height ? 0 : (float)rc画像内の描画領域.Height * (this.vc拡大縮小倍率.Y - 1f) * 0.5f;
+            float finalX = x - SampleFramework.GameWindowSize.Width / 2.0f + xOffset + fx;
+            float finalY = y - SampleFramework.GameWindowSize.Height / 2.0f + yOffset + fy;
+
+            if (x + rc画像内の描画領域.Width * (rc画像内の描画領域.Width > rc全画像.Width ? 1 : this.vc拡大縮小倍率.X) < 0 || x > SampleFramework.GameWindowSize.Width)
                 return;
-            if (y + rc画像内の描画領域.Height < 0 || y > SampleFramework.GameWindowSize.Height)
+            if (y + rc画像内の描画領域.Height * (rc画像内の描画領域.Height > rc全画像.Height ? 1 : this.vc拡大縮小倍率.Y) < 0 || y > SampleFramework.GameWindowSize.Height)
                 return;
 
             if (this.fZ軸中心回転 == 0f)
             {
                 #region [ (A) 回転なし ]
                 //-----------------
-                float fx = ((float)rc画像内の描画領域.Width) / 2f;
-                float fy = ((float)rc画像内の描画領域.Height) / 2f;
-                float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
-                float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
-                float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
-                float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
                 this.color4.Alpha = ((float)this._opacity) / 255f;
                 int color = this.color4.ToArgb();
 
@@ -614,7 +620,7 @@ namespace FDK
                 this.tレンダリングステートの設定(device);
 
                 var matrix = Matrix.Identity * Matrix.Scaling(this.vc拡大縮小倍率);
-                matrix *= Matrix.Translation(x - SampleFramework.GameWindowSize.Width / 2.0f + fx, -(y - SampleFramework.GameWindowSize.Height / 2.0f + fy), 0f);
+                matrix *= Matrix.Translation(finalX, -finalY, 0f);
 
                 device.SetTransform(TransformState.World, matrix);
                 device.SetTexture(0, this.texture);
@@ -627,12 +633,6 @@ namespace FDK
             {
                 #region [ (B) 回転あり ]
                 //-----------------
-                float fx = ((float)rc画像内の描画領域.Width) / 2f;
-                float fy = ((float)rc画像内の描画領域.Height) / 2f;
-                float f左U値 = ((float)rc画像内の描画領域.Left) / ((float)this.szテクスチャサイズ.Width);
-                float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
-                float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
-                float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
                 this.color4.Alpha = ((float)this._opacity) / 255f;
                 int color = this.color4.ToArgb();
 
@@ -676,7 +676,7 @@ namespace FDK
                 var vc3移動量 = new Vector3(n描画領域内X - (((float)device.Viewport.Width) / 2f), -(n描画領域内Y - (((float)device.Viewport.Height) / 2f)), 0f);
 
                 var matrix = Matrix.Identity * Matrix.Scaling(this.vc拡大縮小倍率);
-                matrix *= Matrix.Translation(x - SampleFramework.GameWindowSize.Width / 2.0f + fx, -(y - SampleFramework.GameWindowSize.Height / 2.0f + fy), 0f);
+                matrix *= Matrix.Translation(finalX, -finalY, 0f);
                 matrix *= Matrix.RotationZ(this.fZ軸中心回転);
                 matrix *= Matrix.Translation(vc3移動量);
                 device.SetTransform(TransformState.World, matrix);
@@ -699,6 +699,12 @@ namespace FDK
             float f右U値 = ((float)rc画像内の描画領域.Right) / ((float)this.szテクスチャサイズ.Width);
             float f上V値 = ((float)rc画像内の描画領域.Top) / ((float)this.szテクスチャサイズ.Height);
             float f下V値 = ((float)rc画像内の描画領域.Bottom) / ((float)this.szテクスチャサイズ.Height);
+
+            float xOffset = rc画像内の描画領域.Width > rc全画像.Width ? 0 : (float)rc画像内の描画領域.Width * (this.vc拡大縮小倍率.X - 1f) * 0.5f;
+            float yOffset = rc画像内の描画領域.Height > rc全画像.Height ? 0 : (float)rc画像内の描画領域.Height * (this.vc拡大縮小倍率.Y - 1f) * 0.5f;
+            float finalX = x - SampleFramework.GameWindowSize.Width / 2.0f + xOffset + fx;
+            float finalY = y - SampleFramework.GameWindowSize.Height / 2.0f + yOffset + fy;
+
             this.color4.Alpha = ((float)this._opacity) / 255f;
             int color = this.color4.ToArgb();
 
@@ -738,7 +744,7 @@ namespace FDK
             this.tレンダリングステートの設定(device);
 
             var matrix = Matrix.Identity * Matrix.Scaling(this.vc拡大縮小倍率);
-            matrix *= Matrix.Translation(x - SampleFramework.GameWindowSize.Width / 2.0f + fx, -(y - SampleFramework.GameWindowSize.Height / 2.0f + fy), 0f);
+            matrix *= Matrix.Translation(finalX, -finalY, 0f);
 
             device.SetTransform(TransformState.World, matrix);
             device.SetTexture(0, this.texture);
