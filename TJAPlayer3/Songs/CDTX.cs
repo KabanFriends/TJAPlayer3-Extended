@@ -7653,6 +7653,40 @@ namespace TJAPlayer3
                 this.listLiryc.Clear();
             }
 
+            if (this.listObj != null)
+            {
+                foreach (KeyValuePair<string, CSongObject> pair in this.listObj)
+                {
+                    pair.Value.tDispose();
+                }
+                this.listObj.Clear();
+            }
+            
+            if (this.listOriginalTextures != null)
+            {
+                foreach (KeyValuePair<string, CTexture> pair in this.listOriginalTextures)
+                {
+                    string txPath = pair.Key;
+                    CTexture originalTx = pair.Value;
+                    TJAPlayer3.Tx.trackedTextures.TryGetValue(txPath, out CTexture oldTx);
+
+                    if (oldTx != originalTx)
+                    {
+                        oldTx.UpdateTexture(TJAPlayer3.app.Device, originalTx.texture, originalTx.sz画像サイズ.Width, originalTx.sz画像サイズ.Height);
+                    }
+                }
+                this.listOriginalTextures.Clear();
+            }
+
+            if (this.listTextures != null)
+            {
+                foreach (KeyValuePair<string, CTexture> pair in this.listTextures)
+                {
+                    pair.Value.Dispose();
+                }
+                this.listTextures.Clear();
+            }
+
             base.On非活性化();
         }
         public override void OnManagedリソースの作成()
