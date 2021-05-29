@@ -192,7 +192,7 @@ namespace TJAPlayer3
                             }
 
                             #region[ 新処理 ]
-                            CDTX dtx = new CDTX( fileinfo.FullName, false, 1.0, 0, 1 );
+                            CDTX dtx = new CDTX( fileinfo.FullName, false, 1.0, 0, 1);
                             C曲リストノード c曲リストノード = new C曲リストノード();
                             c曲リストノード.nIndex = index;
                             c曲リストノード.eノード種別 = C曲リストノード.Eノード種別.SCORE;
@@ -321,7 +321,7 @@ namespace TJAPlayer3
                         //}
 
                         #region[ 新処理 ]
-                        CDTX dtx = new CDTX( fileinfo.FullName, false, 1.0, 0, 0 );
+                        CDTX dtx = new CDTX( fileinfo.FullName, false, 1.0, 0, 0);
                         C曲リストノード c曲リストノード = new C曲リストノード();
                         c曲リストノード.nIndex = index;
                         c曲リストノード.eノード種別 = C曲リストノード.Eノード種別.SCORE;
@@ -854,9 +854,9 @@ namespace TJAPlayer3
 							{
 								try
 								{
-									CDTX cdtx = new CDTX( c曲リストノード.arスコア[ i ].ファイル情報.ファイルの絶対パス, true, 0, 0, 0 );
+									CDTX cdtx = new CDTX( c曲リストノード.arスコア[ i ].ファイル情報.ファイルの絶対パス, true, 0, 0, 0);
                                     if( File.Exists( c曲リストノード.arスコア[ i ].ファイル情報.フォルダの絶対パス + "set.def" ) )
-									    cdtx = new CDTX( c曲リストノード.arスコア[ i ].ファイル情報.ファイルの絶対パス, true, 0, 0, 1 );
+									    cdtx = new CDTX( c曲リストノード.arスコア[ i ].ファイル情報.ファイルの絶対パス, true, 0, 0, 1);
 
 									c曲リストノード.arスコア[ i ].譜面情報.タイトル = cdtx.TITLE;
                                     

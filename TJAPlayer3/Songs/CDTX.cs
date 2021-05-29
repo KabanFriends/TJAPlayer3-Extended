@@ -4186,9 +4186,12 @@ namespace TJAPlayer3
                 chip.fObjX = float.Parse(args[1]);
                 chip.fObjY = float.Parse(args[2]);
                 var txPath = this.strフォルダ名 + args[3];
-                var obj = new CSongObject(chip.strObjName, chip.fObjX, chip.fObjY, txPath);
-
-                this.listObj.Add(args[0], obj);
+                Trace.TraceInformation("" + this.bSession譜面を読み込む);
+                if (this.bSession譜面を読み込む)
+                {
+                    var obj = new CSongObject(chip.strObjName, chip.fObjX, chip.fObjY, txPath);
+                    this.listObj.Add(args[0], obj);
+                }
 
                 // チップを配置。
                 this.listChip.Add(chip);
@@ -5020,16 +5023,18 @@ namespace TJAPlayer3
                 chip.strTargetTxName = args[0].Replace("/", "\\");
                 chip.strNewPath = this.strフォルダ名 + args[1];
 
-                if (!this.listOriginalTextures.ContainsKey(chip.strTargetTxName))
+                if (this.bSession譜面を読み込む)
                 {
-                    TJAPlayer3.Tx.trackedTextures.TryGetValue(chip.strTargetTxName, out CTexture oldTx);
-                    this.listOriginalTextures.Add(chip.strTargetTxName, new CTexture(oldTx));
-                }
-
-                if (!this.listTextures.ContainsKey(chip.strNewPath))
-                {
-                    CTexture tx = TJAPlayer3.Tx.TxCSong(chip.strNewPath);
-                    this.listTextures.Add(chip.strNewPath, tx);
+                    if (!this.listOriginalTextures.ContainsKey(chip.strTargetTxName))
+                    {
+                        TJAPlayer3.Tx.trackedTextures.TryGetValue(chip.strTargetTxName, out CTexture oldTx);
+                        this.listOriginalTextures.Add(chip.strTargetTxName, new CTexture(oldTx));
+                    }
+                    if (!this.listTextures.ContainsKey(chip.strNewPath))
+                    {
+                        CTexture tx = TJAPlayer3.Tx.TxCSong(chip.strNewPath);
+                        this.listTextures.Add(chip.strNewPath, tx);
+                    }
                 }
 
                 // チップを配置。

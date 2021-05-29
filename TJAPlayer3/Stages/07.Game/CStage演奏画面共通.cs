@@ -303,30 +303,6 @@ namespace TJAPlayer3
 			TJAPlayer3.fCamRotation = 0.0f;
 			TJAPlayer3.fCamZoomFactor = 1.0f;
 
-			CDTX dTX = TJAPlayer3.DTX;
-
-			foreach (KeyValuePair<string, CSongObject> pair in dTX.listObj)
-			{
-				pair.Value.tDispose();
-			}
-			dTX.listObj.Clear();
-
-			foreach (KeyValuePair<string, CTexture> pair in dTX.listOriginalTextures)
-			{
-				string txPath = pair.Key;
-				CTexture originalTx = pair.Value;
-				TJAPlayer3.Tx.trackedTextures.TryGetValue(txPath, out CTexture oldTx);
-
-				if (oldTx != originalTx)
-                {
-					oldTx.UpdateTexture(TJAPlayer3.app.Device, originalTx.texture, originalTx.sz画像サイズ.Width, originalTx.sz画像サイズ.Height);
-                }
-			}
-			foreach (KeyValuePair<string, CTexture> pair in dTX.listTextures)
-            {
-				pair.Value.Dispose();
-            }
-
 			if (bConfigUpdated)
             {
 				TJAPlayer3.app.RefleshSkin();
