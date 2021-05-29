@@ -3509,7 +3509,7 @@ namespace TJAPlayer3
 							pChip.bHit = true;
 
 							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
-							obj.visible = true;
+							obj.isVisible = true;
 						}
 						break;
 					case 0xbd: //remove object
@@ -3518,7 +3518,7 @@ namespace TJAPlayer3
 							pChip.bHit = true;
 
 							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
-							obj.visible = false;
+							obj.isVisible = false;
 						}
 						break;
 					case 0xbe: //object animation start
@@ -3615,10 +3615,44 @@ namespace TJAPlayer3
 							bConfigUpdated = true;
 						}
 						break;
+					case 0xd4: //start object animation
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
+
+							obj.tStartAnimation(pChip.dbAnimInterval, false);
+						}
+						break;
+					case 0xd5: //start object animation (looping)
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
+
+							obj.tStartAnimation(pChip.dbAnimInterval, true);
+						}
+						break;
+					case 0xd6: //end object animation
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
+
+							obj.tStopAnimation();
+						}
+						break;
+					case 0xd7: //set object frame
+						if (!pChip.bHit && (pChip.nバーからの距離dot.Drums < 0))
+						{
+							pChip.bHit = true;
+							dTX.listObj.TryGetValue(pChip.strObjName, out CSongObject obj);
+
+							obj.frame = pChip.intFrame;
+						}
+						break;
 					#endregion
 					#region [ c4, c7, d5-d9: EmptySlot ]
-					case 0xd6:  // BGA画像入れ替え
-					case 0xd7:
 					case 0xd8:
 					case 0xd9:
 						//case 0xe0:

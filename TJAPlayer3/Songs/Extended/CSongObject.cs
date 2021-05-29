@@ -15,7 +15,7 @@ namespace TJAPlayer3
         public CSongObject(string name, float x, float y, string path)
         {
             this.name = path;
-            this.visible = false;
+            this.isVisible = false;
 
             this.x = x;
             this.y = y;
@@ -38,8 +38,34 @@ namespace TJAPlayer3
             }
         }       
 
+        public void tStartAnimation(double animInterval, bool loop)
+        {
+            counter.t開始(0, textures.Length - 1, animInterval, TJAPlayer3.Timer);
+
+            this.isLooping = loop;
+            this.isAnimating = true;
+        }
+
+        public void tStopAnimation()
+        {
+            counter.t停止();
+            this.isAnimating = false;
+        }
+
         public void tDraw()
         {
+            if (isAnimating)
+            {
+                if (isLooping) counter.t進行Loop();
+                else
+                {
+                    counter.t進行();
+                    if (counter.b終了値に達した) this.tStopAnimation();
+                }
+
+                frame = counter.n現在の値;
+            }
+
             CTexture tx = this.textures[frame];
             if (frame + 1 > textures.Length) return;
             if (tx == null) return;
@@ -47,22 +73,26 @@ namespace TJAPlayer3
             tx.fZ軸中心回転 = C変換.DegreeToRadian(this.rotation);
             tx.color4 = this.color;
             tx.Opacity = this.opacity;
-            if (visible) tx.t2D描画SongObj(TJAPlayer3.app.Device, this.x, this.y, this.xScale, this.yScale);
+            if (isVisible) tx.t2D描画SongObj(TJAPlayer3.app.Device, this.x, this.y, this.xScale, this.yScale);
         }
 
         public void tDispose()
         {
-            this.visible = false;
+            this.isVisible = false;
             foreach (CTexture tx in textures)
             {
                 if (tx != null) tx.Dispose();
             }
         }
 
+        private CCounter counter = new CCounter();
+        private bool isAnimating;
+        private bool isLooping;
+
         public CTexture[] textures;
 
         public string name;
-        public bool visible;
+        public bool isVisible;
 
         public float x;
         public float y;
