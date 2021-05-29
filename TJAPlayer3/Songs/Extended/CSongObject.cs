@@ -24,7 +24,7 @@ namespace TJAPlayer3
             this.xScale = 1.0f;
             this.yScale = 1.0f;
             this.color = new Color4(1f, 1f, 1f, 1f);
-            this.frame = 1;
+            this.frame = 0;
 
             FileAttributes attr = File.GetAttributes(path);
 
@@ -40,8 +40,8 @@ namespace TJAPlayer3
 
         public void tDraw()
         {
-            CTexture tx = this.textures[frame - 1];
-            if (frame > textures.Length) return;
+            CTexture tx = this.textures[frame];
+            if (frame + 1 > textures.Length) return;
             if (tx == null) return;
 
             tx.fZ軸中心回転 = C変換.DegreeToRadian(this.rotation);
